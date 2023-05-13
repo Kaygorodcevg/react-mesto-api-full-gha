@@ -1,0 +1,9 @@
+.authpage__link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.authpage__link:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}

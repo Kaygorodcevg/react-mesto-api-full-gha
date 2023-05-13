@@ -1,0 +1,14 @@
+.elements__reaction {
+  background-image: url(../../../images/reaction.svg);
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  width: 22px;
+  height: 19px;
+}
+
+.elements__reaction:hover {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
