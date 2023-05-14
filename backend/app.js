@@ -5,12 +5,14 @@ const validationErrors = require('celebrate').errors;
 const mainRouter = require('./routes');
 const err = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('cors');
 
 const app = express();
 const { PORT = 3000 } = process.env;
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
