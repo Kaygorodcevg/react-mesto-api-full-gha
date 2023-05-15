@@ -81,10 +81,10 @@ class Api {
 }
 
 export default new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-59',
+  url: 'https:api.mesto.full-front.nomoredomains.monster',
+  credentials: 'include',
   headers: {
-    authorization: '6d5ca40b-b2c8-43db-98ef-021708183295',
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
