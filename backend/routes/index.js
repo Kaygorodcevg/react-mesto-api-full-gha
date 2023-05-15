@@ -6,7 +6,9 @@ const cards = require('./cards');
 const notFound = require('./notFound');
 const signIn = require('./signin');
 const signUp = require('./signup');
+const crashTest = require('./crashTest');
 
+mainRouter.use('/crash-test', crashTest);
 mainRouter.use('/signin', signIn);
 mainRouter.use('/signup', signUp);
 mainRouter.use('/users', auth, users);
