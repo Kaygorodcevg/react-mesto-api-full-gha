@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://mesto.full-front.nomoredomains.monster';
+export const BASE_URL = 'https://auth.nomoreparties.co';
 
 const checkResponse = (res) =>
   res.ok ? res.json() : Promise.reject(`Ошибка: ${res.statusText}`);
