@@ -15,6 +15,7 @@ class Api {
   getInitialCards() {
     return fetch(this._url + '/cards', {
       method: 'GET',
+      credentials: 'include',
       headers: this._headers,
     }).then(this._serverAnswerHandler);
   }
@@ -22,6 +23,7 @@ class Api {
   getUserInfo() {
     return fetch(this._url + '/users/me', {
       method: 'GET',
+      credentials: 'include',
       headers: this._headers,
     }).then(this._serverAnswerHandler);
   }
@@ -29,6 +31,7 @@ class Api {
   changeUserInfo(data) {
     return fetch(this._url + '/users/me', {
       method: 'PATCH',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
@@ -40,6 +43,7 @@ class Api {
   getNewCard(data) {
     return fetch(this._url + '/cards', {
       method: 'POST',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
@@ -51,6 +55,7 @@ class Api {
   changeAvatar({ avatar }) {
     return fetch(this._url + '/users/me/avatar', {
       method: 'PATCH',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         avatar: avatar,
@@ -62,6 +67,7 @@ class Api {
     if (isLiked) {
       return fetch(this._url + `/cards/likes/${id}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: this._headers,
       }).then(this._serverAnswerHandler);
     } else {
@@ -75,6 +81,7 @@ class Api {
   deleteCard(id) {
     return fetch(this._url + `/cards/${id}`, {
       method: 'DELETE',
+      credentials: 'include',
       headers: this._headers,
     }).then(this._serverAnswerHandler);
   }
