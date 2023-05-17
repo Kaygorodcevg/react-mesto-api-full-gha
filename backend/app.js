@@ -15,9 +15,11 @@ mongoose.connect('mongodb://0.0.0.0:27017/mestodb');
 
 app.use(cors(
   {
-    origin: 'https://mesto.full-front.nomoredomains.monster',
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    exposedHeaders: ['set-cookie'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    // exposedHeaders: ['set-cookie'],
   },
 ));
 app.use(cookieParser());

@@ -22,7 +22,13 @@ export const authorize = (password, email) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ password, email }),
-  }).then(checkResponse);
+  }).then(checkResponse)
+  .then((data) => {
+    if (data.token) {
+      localStorage.setItem('jwt', data.token)
+      return data.token
+    }
+  })
 };
 
 export const getContent = (token) => {
