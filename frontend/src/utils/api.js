@@ -91,7 +91,6 @@ export default new Api({
   url: 'https://api.mesto.full-front.nomoredomains.monster',
   credentials: 'include',
   headers: {
-    'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
   }
 });
