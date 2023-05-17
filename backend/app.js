@@ -15,14 +15,14 @@ mongoose.connect('mongodb://0.0.0.0:27017/mestodb');
 
 app.use(cors(
   {
-    // origin: ['https://mesto.full-front.nomoredomains.monster',
-    //   'https://api.mesto.full-front.nomoredomains.monster', 'localhost:3000'],
+    origin: ['https://mesto.full-front.nomoredomains.monster',
+      'https://api.mesto.full-front.nomoredomains.monster', 'localhost:3000'],
     // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     // credentials: true,
-    // allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     // exposedHeaders: ['set-cookie'],
-    origin: '*',
-    credentials: true, // access-control-allow-credentials:true
+    // origin: '*',
+    credentials: true,
     optionSuccessStatus: 200,
   },
 ));
