@@ -6,6 +6,7 @@ const cors = require('cors');
 const mainRouter = require('./routes');
 const err = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { allColors } = require('winston/lib/winston/config');
 require('dotenv').config();
 
 const app = express();
@@ -20,7 +21,7 @@ app.use(cors(
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     // exposedHeaders: ['set-cookie'],
-    // credentials: true,
+    credentials: true,
     preflightContinue: false,
     optionSuccessStatus: 200,
   },
