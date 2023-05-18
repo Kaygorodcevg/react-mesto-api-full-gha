@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -6,8 +7,6 @@ const cors = require('cors');
 const mainRouter = require('./routes');
 const err = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { allColors } = require('winston/lib/winston/config');
-require('dotenv').config();
 
 const app = express();
 const { PORT = 3000 } = process.env;
