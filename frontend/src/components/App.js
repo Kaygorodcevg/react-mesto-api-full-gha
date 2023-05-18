@@ -153,8 +153,7 @@ function App() {
       try {
         const data = await auth.authorize(password, email);
         if (data.token) {
-          localStorage.setItem('token', data.token);
-          setLoggedIn(true);
+          localStorage.setItem('token', 'true')
           setEmail(email);
           navigate('/', { replace: true });
         }
