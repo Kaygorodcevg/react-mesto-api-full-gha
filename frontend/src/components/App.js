@@ -148,23 +148,33 @@ function App() {
     [navigate]
   );
 
+  // const handleAutorization = useCallback(
+  //   async (password, email) => {
+  //     try {
+  //      auth.authorize(password, email)
+  //      .then((token) => {
+  //       auth.getContent(token)
+  //         .then((res) => {
+  //           setEmail(res.data.email)
+  //           setLoggedIn(true);
+  //           navigate('/', { replace: true })
+  //         })
+  //     })
+  //     } catch (err) {
+  //       alert('Неверный Email или пароль.');
+  //     }
+  //   },
+  //   [navigate]
+  // );
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
-       auth.authorize(password, email)
-       .then((token) => {
-        auth.getContent(token)
-          .then((res) => {
-            setEmail(res.data.email)
-            setLoggedIn(true);
-            navigate('/', { replace: true })
-          })
-      })
-        // if (data.token) {
-        //   localStorage.setItem('token', 'true')
-        //   setEmail(email);
-        //   navigate('/', { replace: true });
-        // }
+        const data = await auth.authorize(password, email);
+        if (data.token) {
+          localStorage.setItem('Auth', 'true')
+          setEmail(email);
+          navigate('/', { replace: true });
+        }
       } catch (err) {
         alert('Неверный Email или пароль.');
       }
@@ -177,7 +187,7 @@ function App() {
   }, [tokenCheck]);
 
   function tokenCheck() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('Auth');
     if (token) {
       auth
         .getContent(token)
@@ -193,7 +203,7 @@ function App() {
   }
 
   function logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('Auth');
     setLoggedIn(false);
     setEmail('');
   }
