@@ -151,12 +151,20 @@ function App() {
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
-        const data = await auth.authorize(password, email);
-        if (data.token) {
-          localStorage.setItem('token', 'true')
-          setEmail(email);
-          navigate('/', { replace: true });
-        }
+       auth.authorize(password, email)
+       .then((token) => {
+        auth.getContent(token)
+          .then((res) => {
+            setEmail(res.data.email)
+            setLoggedIn(true);
+            navigate('/', { replace: true })
+          })
+      })
+        // if (data.token) {
+        //   localStorage.setItem('token', 'true')
+        //   setEmail(email);
+        //   navigate('/', { replace: true });
+        // }
       } catch (err) {
         alert('Неверный Email или пароль.');
       }
