@@ -14,7 +14,7 @@ module.exports.createCard = (req, res, next) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => card.populate('owner'))
-    .then((card) => res.status(CREATED).send({ card }))
+    .then((card) => res.status(CREATED).send(card))
     .catch(next);
 };
 
@@ -25,7 +25,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (card.owner.toString() === req.user._id) {
         Card.deleteOne(card._id)
           .orFail()
-          .then((cardData) => res.send({ data: cardData }))
+          .then((cardData) => res.send(cardData))
           .catch(next);
       } else {
         next(new ForbiddenError());
@@ -42,7 +42,7 @@ module.exports.likeCard = (req, res, next) => {
   )
     .orFail()
     .then((card) => card.populate(['owner', 'likes']))
-    .then((likes) => res.send({ data: likes }))
+    .then((likes) => res.send(likes))
     .catch(next);
 };
 
@@ -54,6 +54,6 @@ module.exports.dislikeCard = (req, res, next) => {
   )
     .orFail()
     .then((card) => card.populate(['owner', 'likes']))
-    .then((likes) => res.send({ data: likes }))
+    .then((likes) => res.send(likes))
     .catch(next);
 };

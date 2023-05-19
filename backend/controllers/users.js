@@ -56,7 +56,7 @@ const updateUserInfo = (req, res, newData, next) => {
     runValidators: true,
   })
     .orFail()
-    .then((userData) => res.send({ data: userData }))
+    .then((userData) => res.send(userData))
     .catch(next);
 };
 
