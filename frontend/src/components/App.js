@@ -148,76 +148,78 @@ function App() {
     [navigate]
   );
 
-  // const handleAutorization = useCallback(
-  //   async (password, email) => {
-  //     try {
-  //      auth.authorize(password, email)
-  //      .then((token) => {
-  //       auth.getContent(token)
-  //         .then((res) => {
-  //           setEmail(res.email)
-  //           setLoggedIn(true);
-  //           navigate('/', { replace: true })
-  //         })
-  //     })
-  //     } catch (err) {
-  //       alert('Неверный Email или пароль.');
-  //     }
-  //   },
-  //   [navigate]
-  // );
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
-        const data = await auth.authorize(password, email);
-        if (data.jwt) {
-          localStorage.setItem('jwt', 'true')
-          setEmail(email);
-          navigate('/', { replace: true });
-        }
+       auth.authorize(password, email)
+       .then((token) => {
+        auth.getContent(token)
+          .then((res) => {
+            setEmail(res.email)
+            setLoggedIn(true);
+            navigate('/', { replace: true })
+          })
+      })
       } catch (err) {
         alert('Неверный Email или пароль.');
       }
     },
     [navigate]
   );
+  // const handleAutorization = useCallback(
+  //   async (password, email) => {
+  //     try {
+  //       const data = await auth.authorize(password, email);
+  //       if (data.jwt) {
+  //         localStorage.setItem('jwt', 'true')
+  //         setEmail(email);
+  //         navigate('/', { replace: true });
+  //       }
+  //     } catch (err) {
+  //       alert('Неверный Email или пароль.');
+  //     }
+  //   },
+  //   [navigate]
+  // );
 
 
   useEffect(() => {
     tokenCheck();
   }, [tokenCheck]);
 
-  function tokenCheck() {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            navigate('/', { replace: true });
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }
   // function tokenCheck() {
-  //   auth.getContent()
-  //     .then((res) => {
-  //       if(res) {
-  //         setLoggedIn(true)
-  //         setEmail(res.currentUser.email)
-  //         navigate('/', { replace: true });
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
+  //   const token = localStorage.getItem('jwt');
+  //   if (token) {
+  //     auth
+  //       .getContent(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email);
+  //           navigate('/', { replace: true });
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
   // }
+  function tokenCheck() {
+    auth.getContent()
+      .then((res) => {
+        if(res) {
+          setLoggedIn(true)
+          setEmail(res.currentUser.email)
+          navigate('/', { replace: true });
+        }
+      })
+      .catch((err) => console.log(err))
+  }
 
   function logout() {
-    localStorage.removeItem('jwt');
+    auth.onSignOut();
+    // localStorage.removeItem('jwt');
     setLoggedIn(false);
     setEmail('');
+    navigate('/sign-in', { replace: true });
   }
 
   return (
