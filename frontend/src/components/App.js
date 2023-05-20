@@ -154,7 +154,9 @@ function App() {
         auth
         .authorize(password, email)
         .then((res) => {
+          if (res.token) {
             localStorage.setItem('jwt', res.token);
+          }
             setLoggedIn(true);
             setEmail(email);
             navigate('/', { replace: true });
