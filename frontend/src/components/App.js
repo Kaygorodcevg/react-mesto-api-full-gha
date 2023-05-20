@@ -210,9 +210,15 @@ function App() {
     tokenCheck();
   }, [tokenCheck]);
 
+  // function logout() {
+  //   // localStorage.removeItem('jwt');
+  //   setLoggedIn(false);
+  //   setEmail('');
+  //   navigate('/sign-in', { replace: true });
+  // }
   function logout() {
-    // localStorage.removeItem('jwt');
-    setLoggedIn(false);
+    auth.signOut()
+    setLoggedIn(false)
     setEmail('');
     navigate('/sign-in', { replace: true });
   }
