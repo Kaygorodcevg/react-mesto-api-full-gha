@@ -148,33 +148,18 @@ function App() {
     [navigate]
   );
 
-  const handleAutorization = useCallback(
-    async (password, email) => {
-      try {
-       auth.authorize(password, email)
-       .then((token) => {
-        auth.getContent(token)
-          .then((res) => {
-            setEmail(res.email)
-            setLoggedIn(true);
-            navigate('/', { replace: true })
-          })
-      })
-      } catch (err) {
-        alert('Неверный Email или пароль.');
-      }
-    },
-    [navigate]
-  );
   // const handleAutorization = useCallback(
   //   async (password, email) => {
   //     try {
-  //       const data = await auth.authorize(password, email);
-  //       if (data.jwt) {
-  //         localStorage.setItem('jwt', 'true')
-  //         setEmail(email);
-  //         navigate('/', { replace: true });
-  //       }
+  //      auth.authorize(password, email)
+  //      .then((token) => {
+  //       auth.getContent(token)
+  //         .then((res) => {
+  //           setEmail(res.email)
+  //           setLoggedIn(true);
+  //           navigate('/', { replace: true })
+  //         })
+  //     })
   //     } catch (err) {
   //       alert('Неверный Email или пароль.');
   //     }
@@ -182,6 +167,19 @@ function App() {
   //   [navigate]
   // );
 
+  const handleAutorization = (email, password) => {
+    auth
+      .authorize(email, password)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        setLoggedIn(true);
+        setEmail(email);
+        navigate('/', { replace: true });
+      })
+      .catch((err) => {
+        alert('Неверный Email или пароль.');
+      });
+  }
 
   function tokenCheck() {
     const token = localStorage.getItem('jwt');
@@ -191,7 +189,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setEmail(res.data.email);
+            setEmail(res.email);
             navigate('/', { replace: true });
           }
         })
@@ -215,25 +213,25 @@ function App() {
   //     .catch((err) => console.log(err))
   // }
 
-  function logout() {
-    auth.onSignOut()
-      .then(res => {
-          setLoggedIn(false);
-          setEmail('');
-          navigate('/sign-in', { replace: true });
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-
   // function logout() {
-  //   auth.onSignOut();
-  //   // localStorage.removeItem('jwt');
-  //   setLoggedIn(false);
-  //   setEmail('');
-  //   navigate('/sign-in', { replace: true });
+  //   auth.onSignOut()
+  //     .then(res => {
+  //         setLoggedIn(false);
+  //         setEmail('');
+  //         navigate('/sign-in', { replace: true });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
   // }
+
+  function logout() {
+    auth.onSignOut();
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    setEmail('');
+    navigate('/sign-in', { replace: true });
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
