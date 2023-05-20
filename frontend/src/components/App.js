@@ -174,6 +174,7 @@ function App() {
         if (res.token) {
           localStorage.setItem('jwt', res.token);
         }
+        tokenCheck();
         setLoggedIn(true);
         setEmail(email);
         navigate('/', { replace: true });
