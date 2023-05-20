@@ -171,7 +171,9 @@ function App() {
     auth
       .authorize(password, email)
       .then((res) => {
-        localStorage.setItem('jwt', res.token);
+        if (res.token) {
+          localStorage.setItem('jwt', res.token);
+        }
         setLoggedIn(true);
         setEmail(email);
         navigate('/', { replace: true });
@@ -182,10 +184,10 @@ function App() {
   }
 
   function tokenCheck() {
-    const token = localStorage.getItem('jwt');
-    if (token) {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
       auth
-        .getContent(token)
+        .getContent(jwt)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
