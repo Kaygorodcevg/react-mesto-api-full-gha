@@ -148,19 +148,38 @@ function App() {
     [navigate]
   );
 
+  const handleAutorization = useCallback(
+    async (password, email) => {
+      try {
+        auth
+        .authorize(password, email)
+        .then((res) => {
+          if (res) {
+            localStorage.setItem('token', true);
+          }
+            setLoggedIn(true);
+            setEmail(email);
+            navigate('/', { replace: true });
+        })
+      } catch (err) {
+        alert('Неверный Email или пароль.');
+      }
+    },
+    [navigate]
+  );
+
   // const handleAutorization = useCallback(
   //   async (password, email) => {
   //     try {
-  //       auth
-  //       .authorize(password, email)
-  //       .then((res) => {
-  //         if (res) {
-  //           localStorage.setItem('jwt', 'true');
-  //         }
+  //      auth.authorize(password, email)
+  //      .then((token) => {
+  //       auth.getContent(token)
+  //         .then((res) => {
+  //           setEmail(res.email)
   //           setLoggedIn(true);
-  //           setEmail(email);
-  //           navigate('/', { replace: true });
-  //       })
+  //           navigate('/', { replace: true })
+  //         })
+  //     })
   //     } catch (err) {
   //       alert('Неверный Email или пароль.');
   //     }
@@ -168,42 +187,20 @@ function App() {
   //   [navigate]
   // );
 
-  function handleAutorization(password, email) {
-    auth.authorize(password, email)
-      .then((token) => {
-        auth.getContent(token)
-          .then((res) => {
-            setLoggedIn(true);
-            setEmail(res.email);
-            navigate('/', { replace: true });
-          })
-      })
-      .catch((err) => console.log(err))
-  }
-
-  // function tokenCheck() {
-  //   const jwt = localStorage.getItem('jwt');
-  //   if (jwt) {
-  //     auth
-  //       .getContent(jwt)
-  //       .then((res) => {
-  //           setLoggedIn(true);
-  //           setEmail(res.email);
-  //           navigate('/', { replace: true });
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }
   function tokenCheck() {
-    auth.getContent()
-      .then((res) => {
-        if(res) {
-          setLoggedIn(true)
-          setEmail(res.email)
-          navigate('/', { replace: true });
-        }
-      })
-      .catch((err) => console.log(err))
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            setEmail(res.data.email);
+            navigate('/', { replace: true });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   useEffect(() => {
@@ -217,6 +214,7 @@ function App() {
   //   navigate('/sign-in', { replace: true });
   // }
   function logout() {
+    localStorage.removeItem('token');
     auth.signOut()
     setLoggedIn(false)
     setEmail('');
