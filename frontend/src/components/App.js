@@ -148,6 +148,38 @@ function App() {
     [navigate]
   );
 
+  const handleAutorization = useCallback(
+    async (password, email) => {
+      try {
+        auth
+        .authorize(password, email)
+        .then((res) => {
+            localStorage.setItem('jwt', res.token);
+            setLoggedIn(true);
+            setEmail(email);
+            navigate('/', { replace: true });
+        })
+      } catch (err) {
+        alert('Неверный Email или пароль.');
+      }
+    },
+    [navigate]
+  );
+
+  // const handleAutorization = (password, email) => {
+  //   auth
+  //     .authorize(password, email)
+  //     .then((res) => {
+  //         localStorage.setItem('jwt', res.token);
+  //         setLoggedIn(true);
+  //         setEmail(email);
+  //         navigate('/', { replace: true });
+  //     })
+  //     .catch((err) => {
+  //       alert('Неверный Email или пароль.');
+  //     });
+  // }
+
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -165,20 +197,6 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, [tokenCheck]);
-
-  const handleAutorization = (password, email) => {
-    auth
-      .authorize(password, email)
-      .then((res) => {
-          localStorage.setItem('jwt', res.token);
-          setLoggedIn(true);
-          setEmail(email);
-          navigate('/', { replace: true });
-      })
-      .catch((err) => {
-        alert('Неверный Email или пароль.');
-      });
-  }
 
   function logout() {
     localStorage.removeItem('jwt');
