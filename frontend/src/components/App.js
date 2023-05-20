@@ -171,20 +171,31 @@ function App() {
     tokenCheck();
   }, [tokenCheck]);
 
+  // function tokenCheck() {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     auth
+  //       .getContent(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email);
+  //           navigate('/', { replace: true });
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }
   function tokenCheck() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            navigate('/', { replace: true });
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+    auth.getContent()
+      .then((res) => {
+        if(res) {
+          setLoggedIn(true)
+          setEmail(res.currentUser.email)
+          navigate('/', { replace: true });
+        }
+      })
+      .catch((err) => console.log(err))
   }
 
   function logout() {
