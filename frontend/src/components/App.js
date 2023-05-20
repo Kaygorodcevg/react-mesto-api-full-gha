@@ -189,40 +189,53 @@ function App() {
   // );
 
 
-  function tokenCheck() {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            navigate('/', { replace: true });
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }
   // function tokenCheck() {
-  //   auth.getContent()
-  //     .then((res) => {
-  //       if(res) {
-  //         setLoggedIn(true)
-  //         setEmail(res.currentUser.email)
-  //         navigate('/', { replace: true });
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
+  //   const token = localStorage.getItem('jwt');
+  //   if (token) {
+  //     auth
+  //       .getContent(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email);
+  //           navigate('/', { replace: true });
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
   // }
+  
+  function tokenCheck() {
+    auth.getContent()
+      .then((res) => {
+        if(res) {
+          setLoggedIn(true)
+          setEmail(res.data.email)
+          navigate('/', { replace: true });
+        }
+      })
+      .catch((err) => console.log(err))
+  }
 
   function logout() {
-    auth.onSignOut();
-    // localStorage.removeItem('jwt');
-    setLoggedIn(false);
-    setEmail('');
-    navigate('/sign-in', { replace: true });
+    auth.onSignOut()
+      .then(res => {
+          setLoggedIn(false);
+          setEmail('');
+          navigate('/sign-in', { replace: true });
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
+
+  // function logout() {
+  //   auth.onSignOut();
+  //   // localStorage.removeItem('jwt');
+  //   setLoggedIn(false);
+  //   setEmail('');
+  //   navigate('/sign-in', { replace: true });
+  // }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
