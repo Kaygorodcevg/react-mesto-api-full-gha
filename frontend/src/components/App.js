@@ -156,7 +156,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setEmail(email);
+            setEmail(res.email);
             navigate('/', { replace: true });
           }
         })
@@ -166,25 +166,6 @@ function App() {
     },
     [navigate]
   );
-
-  // const handleAutorization = useCallback(
-  //   async (password, email) => {
-  //     try {
-  //      auth.authorize(password, email)
-  //      .then((token) => {
-  //       auth.getContent(token)
-  //         .then((res) => {
-  //           setEmail(res.email)
-  //           setLoggedIn(true);
-  //           navigate('/', { replace: true })
-  //         })
-  //     })
-  //     } catch (err) {
-  //       alert('Неверный Email или пароль.');
-  //     }
-  //   },
-  //   [navigate]
-  // );
 
   function tokenCheck() {
       auth
@@ -203,12 +184,7 @@ function App() {
     tokenCheck();
   }, [tokenCheck]);
 
-  // function logout() {
-  //   // localStorage.removeItem('jwt');
-  //   setLoggedIn(false);
-  //   setEmail('');
-  //   navigate('/sign-in', { replace: true });
-  // }
+ 
   function logout() {
     auth.signOut()
     setLoggedIn(false)

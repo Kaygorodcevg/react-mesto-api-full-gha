@@ -91,5 +91,9 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.logout = (req, res) => {
-  res.clearCookie('jwt').send();
+  res.cookie('jwt', 'none', {
+    maxAge: 3000,
+    httpOnly: true,
+    sameSite: true,
+  });
 };
