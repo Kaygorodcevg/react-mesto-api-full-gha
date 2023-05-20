@@ -187,19 +187,16 @@ function App() {
   // );
 
   function tokenCheck() {
-    const token = localStorage.getItem('token');
-    if (token) {
       auth
-        .getContent(token)
+        .getContent()
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setEmail(res.data.email);
+            setEmail(res.email);
             navigate('/', { replace: true });
           }
         })
         .catch((err) => console.log(err));
-    }
   }
 
   useEffect(() => {
@@ -213,7 +210,6 @@ function App() {
   //   navigate('/sign-in', { replace: true });
   // }
   function logout() {
-    localStorage.removeItem('token');
     auth.signOut()
     setLoggedIn(false)
     setEmail('');
