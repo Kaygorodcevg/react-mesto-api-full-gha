@@ -6,7 +6,7 @@ import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import Api from '../utils/api';
+import api from '../utils/api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -35,7 +35,8 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loggedIn && Promise.all([Api.getInitialCards(), Api.getUserInfo()])
+    if (loggedIn) { 
+      Promise.all([api.getInitialCards(), api.getUserInfo()])
       .then(([cardsData, userData]) => {
         setCards(cardsData);
         setCurrentUser(userData);
@@ -43,11 +44,12 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+    }
   }, [loggedIn]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((item) => item._id === currentUser._id);
-    Api.changeLikeCardStatus(card._id, !isLiked)
+    api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
           state.map((item) => (item._id === card._id ? newCard : item))
@@ -57,7 +59,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    Api.deleteCard(card._id)
+    api.deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((item) => item._id !== card._id));
       })
@@ -98,7 +100,7 @@ function App() {
   }
 
   function handleUpdateUser(userData) {
-    Api.changeUserInfo(userData)
+    api.changeUserInfo(userData)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -107,7 +109,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatarData) {
-    Api.changeAvatar(avatarData)
+    api.changeAvatar(avatarData)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -116,7 +118,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(cardData) {
-    Api.getNewCard(cardData)
+    api.getNewCard(cardData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -168,24 +170,38 @@ function App() {
     [navigate]
   );
 
-  function tokenCheck() {
-      auth
-        .getContent()
-        .then((res) => {
-          if (res) {
+  // function tokenCheck() {
+  //     auth
+  //       .getContent()
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.email);
+  //           navigate('/', { replace: true });
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  // }
+
+  const tokenCheck = useCallback(async () => {
+    try {
+      const userData = await auth.getContent();
+      if (userData) {
             setLoggedIn(true);
-            setEmail(res.email);
+            setEmail(userData.email);
             navigate('/', { replace: true });
-          }
-        })
-        .catch((err) => console.log(err));
-  }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, 
+  [navigate]);
 
-  useEffect(() => {
-    tokenCheck();
-  }, []);
 
- 
+useEffect(() => {
+  tokenCheck();
+}, [tokenCheck]);
+
   // function logout() {
   //   auth.signOut()
   //   setLoggedIn(false)
