@@ -46,7 +46,7 @@ function App() {
   }, []);
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((item) => item._id === currentUser._id);
+    const isLiked = card.likes.some((id) => id === currentUser._id);
     Api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
@@ -59,7 +59,7 @@ function App() {
   function handleCardDelete(card) {
     Api.deleteCard(card._id)
       .then(() => {
-        setCards((state) => state.filter((item) => item._id !== card._id));
+        setCards((state) => state.filter((item) => item !== card));
       })
       .then(() => {
         closeAllPopups();
@@ -166,21 +166,6 @@ function App() {
     },
     [navigate]
   );
-  // const handleAutorization = useCallback(
-  //   async (password, email) => {
-  //     try {
-  //       const data = await auth.authorize(password, email);
-  //       if (data.token) {
-  //         localStorage.setItem('token', 'true')
-  //         setEmail(email);
-  //         navigate('/', { replace: true });
-  //       }
-  //     } catch (err) {
-  //       alert('Неверный Email или пароль.');
-  //     }
-  //   },
-  //   [navigate]
-  // );
 
   useEffect(() => {
     tokenCheck();
@@ -207,47 +192,6 @@ function App() {
     setLoggedIn(false);
     setEmail('');
   }
-  // const handleAutorization = useCallback(
-  //   async (password, email) => {
-  //     try {
-  //       const data = await auth.authorize(password, email);
-  //       if (data.token) {
-  //         localStorage.setItem('Auth', 'true')
-  //         setEmail(email);
-  //         navigate('/', { replace: true });
-  //       }
-  //     } catch (err) {
-  //       alert('Неверный Email или пароль.');
-  //     }
-  //   },
-  //   [navigate]
-  // );
-
-  // useEffect(() => {
-  //   tokenCheck();
-  // }, [tokenCheck]);
-
-  // function tokenCheck() {
-  //   const token = localStorage.getItem('Auth');
-  //   if (token) {
-  //     auth
-  //       .getContent(token)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setEmail(res.data.email);
-  //           navigate('/', { replace: true });
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }
-
-  // function logout() {
-  //   localStorage.removeItem('Auth');
-  //   setLoggedIn(false);
-  //   setEmail('');
-  // }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
