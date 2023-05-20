@@ -155,11 +155,10 @@ function App() {
         .authorize(password, email)
         .then((res) => {
           if (res) {
-            localStorage.setItem('token', true);
-          }
             setLoggedIn(true);
             setEmail(email);
             navigate('/', { replace: true });
+          }
         })
       } catch (err) {
         alert('Неверный Email или пароль.');
