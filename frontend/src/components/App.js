@@ -35,7 +35,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([Api.getInitialCards(), Api.getUserInfo()])
+    loggedIn && Promise.all([Api.getInitialCards(), Api.getUserInfo()])
       .then(([cardsData, userData]) => {
         setCards(cardsData);
         setCurrentUser(userData);
@@ -43,7 +43,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [loggedIn]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((item) => item._id === currentUser._id);
@@ -161,7 +161,8 @@ function App() {
           }
         })
       } catch (err) {
-        alert('Неверный Email или пароль.');
+        setInfoTooltip(true);
+        console.error(err);
       }
     },
     [navigate]
@@ -182,15 +183,27 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-  }, [tokenCheck]);
+  }, []);
 
  
-  function logout() {
-    auth.signOut()
-    setLoggedIn(false)
-    setEmail('');
-    navigate('/sign-in', { replace: true });
-  }
+  // function logout() {
+  //   auth.signOut()
+  //   setLoggedIn(false)
+  //   setEmail('');
+  //   navigate('/sign-in', { replace: true });
+  // }
+  const logout = useCallback(async () => {
+    try {
+      const data = await auth.signOut();
+      if (data) {
+        setLoggedIn(false);
+        setEmail('');
+        navigate('/sign-in', { replace: true });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [navigate]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
