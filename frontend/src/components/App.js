@@ -170,43 +170,33 @@ function App() {
     [navigate]
   );
  
-  const tokenCheck = useCallback(async () => {
-    try {
-      const userData = await auth.getContent();
-      if (userData) {
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
             setLoggedIn(true);
-            setEmail(userData.email);
+            setEmail(res.email);
             navigate('/', { replace: true });
-      }
-    } catch (err) {
-      console.error(err);
+          }
+        })
+        .catch((err) => console.log(err));
     }
-  }, 
-  [navigate]);
-
+  }
 
 useEffect(() => {
   tokenCheck();
 }, [tokenCheck]);
 
-  // function logout() {
-  //   auth.signOut()
-  //   setLoggedIn(false)
-  //   setEmail('');
-  //   navigate('/sign-in', { replace: true });
-  // }
-  const logout = useCallback(async () => {
-    try {
-      const data = await auth.signOut();
-      if (data) {
-        setLoggedIn(false);
-        setEmail('');
-        navigate('/sign-in', { replace: true });
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [navigate]);
+  function logout() {
+    localStorage.removeItem('token');
+    auth.signOut()
+    setLoggedIn(false)
+    setEmail('');
+    navigate('/sign-in', { replace: true });
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
