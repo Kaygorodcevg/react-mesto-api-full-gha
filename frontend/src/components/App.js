@@ -171,7 +171,7 @@ function App() {
     auth
       .authorize(password, email)
       .then((res) => {
-        localStorage.setItem('jwt', true);
+        localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         setEmail(email);
         navigate('/', { replace: true });
@@ -200,30 +200,6 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, [tokenCheck]);
-
-  // function tokenCheck() {
-  //   auth.getContent()
-  //     .then((res) => {
-  //       if(res) {
-  //         setLoggedIn(true)
-  //         setEmail(res.email)
-  //         navigate('/', { replace: true });
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
-  // }
-
-  // function logout() {
-  //   auth.onSignOut()
-  //     .then(res => {
-  //         setLoggedIn(false);
-  //         setEmail('');
-  //         navigate('/sign-in', { replace: true });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
 
   function logout() {
     // auth.onSignOut();
