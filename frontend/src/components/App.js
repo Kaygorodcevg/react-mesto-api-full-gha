@@ -153,15 +153,15 @@ function App() {
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
-        auth
-        .authorize(password, email)
-        .then((res) => {
-          if (res) {
+       auth.authorize(password, email)
+       .then((token) => {
+        auth.getContent(token)
+          .then((res) => {
+            setEmail(res.email)
             setLoggedIn(true);
-            setEmail(res.email);
-            navigate('/', { replace: true });
-          }
-        })
+            navigate('/', { replace: true })
+          })
+      })
       } catch (err) {
         setInfoTooltip(true);
         console.error(err);
@@ -169,20 +169,7 @@ function App() {
     },
     [navigate]
   );
-
-  // function tokenCheck() {
-  //     auth
-  //       .getContent()
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setEmail(res.email);
-  //           navigate('/', { replace: true });
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  // }
-
+ 
   const tokenCheck = useCallback(async () => {
     try {
       const userData = await auth.getContent();
