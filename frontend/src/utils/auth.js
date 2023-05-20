@@ -35,13 +35,3 @@ export const getContent = (token) => {
     },
   }).then(checkResponse);
 };
-
-// export const onSignOut = () => {
-//   return fetch(`${BASE_URL}/logout`, {
-//     credentials: 'include',
-//     method: 'POST',
-//     headers: {
-//       "Content-Type": "application/json"
-//     }
-//   })
-// }

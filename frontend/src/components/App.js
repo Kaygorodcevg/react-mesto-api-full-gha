@@ -148,53 +148,15 @@ function App() {
     [navigate]
   );
 
-  // const handleAutorization = useCallback(
-  //   async (password, email) => {
-  //     try {
-  //      auth.authorize(password, email)
-  //      .then((token) => {
-  //       auth.getContent(token)
-  //         .then((res) => {
-  //           setEmail(res.email)
-  //           setLoggedIn(true);
-  //           navigate('/', { replace: true })
-  //         })
-  //     })
-  //     } catch (err) {
-  //       alert('Неверный Email или пароль.');
-  //     }
-  //   },
-  //   [navigate]
-  // );
-
-  const handleAutorization = (password, email) => {
-    auth
-      .authorize(password, email)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem('jwt', res.token);
-        }
-        tokenCheck();
-        setLoggedIn(true);
-        setEmail(email);
-        navigate('/', { replace: true });
-      })
-      .catch((err) => {
-        alert('Неверный Email или пароль.');
-      });
-  }
-
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth
         .getContent(jwt)
         .then((res) => {
-          if (res) {
             setLoggedIn(true);
             setEmail(res.email);
             navigate('/', { replace: true });
-          }
         })
         .catch((err) => console.log(err));
     }
@@ -204,8 +166,21 @@ function App() {
     tokenCheck();
   }, [tokenCheck]);
 
+  const handleAutorization = (password, email) => {
+    auth
+      .authorize(password, email)
+      .then((res) => {
+          localStorage.setItem('jwt', res.token);
+          setLoggedIn(true);
+          setEmail(email);
+          navigate('/', { replace: true });
+      })
+      .catch((err) => {
+        alert('Неверный Email или пароль.');
+      });
+  }
+
   function logout() {
-    // auth.onSignOut();
     localStorage.removeItem('jwt');
     setLoggedIn(false);
     setEmail('');
