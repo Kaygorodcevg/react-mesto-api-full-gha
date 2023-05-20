@@ -148,6 +148,12 @@ function App() {
     [navigate]
   );
 
+  useEffect(() => {
+    tokenCheck();
+  }, [tokenCheck]);
+
+
+
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
@@ -183,36 +189,32 @@ function App() {
   // );
 
 
-  useEffect(() => {
-    tokenCheck();
-  }, [tokenCheck]);
-
-  // function tokenCheck() {
-  //   const token = localStorage.getItem('jwt');
-  //   if (token) {
-  //     auth
-  //       .getContent(token)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setEmail(res.data.email);
-  //           navigate('/', { replace: true });
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }
   function tokenCheck() {
-    auth.getContent()
-      .then((res) => {
-        if(res) {
-          setLoggedIn(true)
-          setEmail(res.currentUser.email)
-          navigate('/', { replace: true });
-        }
-      })
-      .catch((err) => console.log(err))
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            setEmail(res.data.email);
+            navigate('/', { replace: true });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
+  // function tokenCheck() {
+  //   auth.getContent()
+  //     .then((res) => {
+  //       if(res) {
+  //         setLoggedIn(true)
+  //         setEmail(res.currentUser.email)
+  //         navigate('/', { replace: true });
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
   function logout() {
     auth.onSignOut();
