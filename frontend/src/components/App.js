@@ -204,13 +204,13 @@ function App() {
   //       .catch((err) => console.log(err));
   //   }
   // }
-  
+
   function tokenCheck() {
     auth.getContent()
       .then((res) => {
         if(res) {
           setLoggedIn(true)
-          setEmail(res.data.email)
+          setEmail(res.email)
           navigate('/', { replace: true });
         }
       })
