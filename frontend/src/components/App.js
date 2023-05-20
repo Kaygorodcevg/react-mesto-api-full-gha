@@ -167,11 +167,11 @@ function App() {
   //   [navigate]
   // );
 
-  const handleAutorization = (email, password) => {
+  const handleAutorization = (password, email) => {
     auth
-      .authorize(email, password)
+      .authorize(password, email)
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
+        localStorage.setItem('jwt', true);
         setLoggedIn(true);
         setEmail(email);
         navigate('/', { replace: true });
@@ -226,7 +226,7 @@ function App() {
   // }
 
   function logout() {
-    auth.onSignOut();
+    // auth.onSignOut();
     localStorage.removeItem('jwt');
     setLoggedIn(false);
     setEmail('');
