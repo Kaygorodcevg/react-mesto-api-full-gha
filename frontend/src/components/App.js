@@ -148,52 +148,62 @@ function App() {
     [navigate]
   );
 
-  const handleAutorization = useCallback(
-    async (password, email) => {
-      try {
-        auth
-        .authorize(password, email)
-        .then((res) => {
-          if (res) {
-            localStorage.setItem('jwt', 'true');
-          }
-            setLoggedIn(true);
-            setEmail(email);
-            navigate('/', { replace: true });
-        })
-      } catch (err) {
-        alert('Неверный Email или пароль.');
-      }
-    },
-    [navigate]
-  );
-
-  // const handleAutorization = (password, email) => {
-  //   auth
-  //     .authorize(password, email)
-  //     .then((res) => {
-  //         localStorage.setItem('jwt', res.token);
-  //         setLoggedIn(true);
-  //         setEmail(email);
-  //         navigate('/', { replace: true });
-  //     })
-  //     .catch((err) => {
+  // const handleAutorization = useCallback(
+  //   async (password, email) => {
+  //     try {
+  //       auth
+  //       .authorize(password, email)
+  //       .then((res) => {
+  //         if (res) {
+  //           localStorage.setItem('jwt', 'true');
+  //         }
+  //           setLoggedIn(true);
+  //           setEmail(email);
+  //           navigate('/', { replace: true });
+  //       })
+  //     } catch (err) {
   //       alert('Неверный Email или пароль.');
-  //     });
-  // }
+  //     }
+  //   },
+  //   [navigate]
+  // );
 
-  function tokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth
-        .getContent(jwt)
-        .then((res) => {
+  function handleAutorization(password, email) {
+    auth.authorize(password, email)
+      .then((token) => {
+        auth.getContent(token)
+          .then((res) => {
             setLoggedIn(true);
             setEmail(res.email);
             navigate('/', { replace: true });
-        })
-        .catch((err) => console.log(err));
-    }
+          })
+      })
+      .catch((err) => console.log(err))
+  }
+
+  // function tokenCheck() {
+  //   const jwt = localStorage.getItem('jwt');
+  //   if (jwt) {
+  //     auth
+  //       .getContent(jwt)
+  //       .then((res) => {
+  //           setLoggedIn(true);
+  //           setEmail(res.email);
+  //           navigate('/', { replace: true });
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }
+  function tokenCheck() {
+    auth.getContent()
+      .then((res) => {
+        if(res) {
+          setLoggedIn(true)
+          setEmail(res.email)
+          navigate('/', { replace: true });
+        }
+      })
+      .catch((err) => console.log(err))
   }
 
   useEffect(() => {
@@ -201,7 +211,7 @@ function App() {
   }, [tokenCheck]);
 
   function logout() {
-    localStorage.removeItem('jwt');
+    // localStorage.removeItem('jwt');
     setLoggedIn(false);
     setEmail('');
     navigate('/sign-in', { replace: true });
