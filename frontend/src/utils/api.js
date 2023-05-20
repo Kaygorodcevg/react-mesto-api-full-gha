@@ -72,6 +72,7 @@ class Api {
       }).then(this._serverAnswerHandler);
     } else {
       return fetch(this._url + `/cards/${id}/likes`, {
+        credentials: 'include',
         method: 'DELETE',
         headers: this._headers,
       }).then(this._serverAnswerHandler);
