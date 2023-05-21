@@ -17,13 +17,13 @@ mongoose.connect('mongodb://0.0.0.0:27017/mestodb');
 
 app.use(cors(
   {
-    origin: ['https://mesto.full-front.nomoredomains.monster', 'http://mesto.full-front.nomoredomains.monster', 'localhost:3000'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['set-cookie'],
     credentials: true,
-    preflightContinue: false,
-    optionSuccessStatus: 200,
+    origin: ['https://mesto.full-front.nomoredomains.monster', 'http://mesto.full-front.nomoredomains.monster', 'localhost:3000'],
+    // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['set-cookie'],
+    // preflightContinue: false,
+    // optionSuccessStatus: 200,
   },
 ));
 app.use(helmet());
