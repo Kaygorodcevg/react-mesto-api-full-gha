@@ -148,61 +148,82 @@ function App() {
     [navigate]
   );
 
+  // const handleAutorization = useCallback(
+  //   async (password, email) => {
+  //     try {
+  //      auth.authorize(password, email)
+  //      .then((token) => {
+  //       auth.getContent(token)
+  //         .then((res) => {
+  //           setEmail(res.email)
+  //           setLoggedIn(true);
+  //           navigate('/', { replace: true })
+  //         })
+  //     })
+  //     } catch (err) {
+  //       setInfoTooltip(true);
+  //       console.log(err);
+  //     }
+  //   },
+  //   [navigate]
+  // );
+
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
-       auth.authorize(password, email)
-       .then((token) => {
-        auth.getContent(token)
-          .then((res) => {
-            setEmail(res.email)
-            setLoggedIn(true);
-            navigate('/', { replace: true })
-          })
-      })
+        const data = await auth.authorize(password, email);
+        if (data) {
+          setLoggedIn(true);
+          setEmail(email);
+          navigate("/", { replace: true });
+        }
       } catch (err) {
+        console.error(err);
         setInfoTooltip(true);
-        console.log(err);
-      }
+      } 
     },
     [navigate]
   );
+
+  const tokenCheck = useCallback(async () => {
+    try {
+      const userData = await auth.getContent();
+      if (!userData) {
+        throw new Error("Данные пользователя отсутствует");
+      }
+      setEmail(userData.email);
+      setLoggedIn(true);
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error(err);
+    } 
+  }, [navigate]);
 
   useEffect(() => {
     tokenCheck();
   }, [tokenCheck]);
 
-  function tokenCheck() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            navigate('/', { replace: true });
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }
-
-  useEffect(() => {
-    loggedIn && Promise.all([Api.getInitialCards(), Api.getUserInfo()])
-      .then(([cardsData, userData]) => {
-        setCards(cardsData);
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [loggedIn]);
+  // function tokenCheck() {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     auth
+  //       .getContent(token)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email);
+  //           navigate('/', { replace: true });
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }
 
   function logout() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     setLoggedIn(false);
     setEmail('');
+    navigate("/sign-in", { replace: true });
   }
 
   return (
