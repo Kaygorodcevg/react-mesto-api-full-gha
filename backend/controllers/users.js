@@ -96,4 +96,5 @@ module.exports.signOut = (req, res) => {
     httpOnly: true,
     sameSite: true,
   });
+  res.send({ message: 'Вы вышли' });
 };

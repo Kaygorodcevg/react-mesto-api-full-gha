@@ -150,26 +150,6 @@ function App() {
     [navigate]
   );
 
-  // const handleAutorization = useCallback(
-  //   async (password, email) => {
-  //     try {
-  //      auth.authorize(password, email)
-  //      .then((token) => {
-  //       auth.getContent(token)
-  //         .then((res) => {
-  //           setEmail(res.email)
-  //           setLoggedIn(true);
-  //           navigate('/', { replace: true })
-  //         })
-  //     })
-  //     } catch (err) {
-  //       setInfoTooltip(true);
-  //       console.log(err);
-  //     }
-  //   },
-  //   [navigate]
-  // );
-
   const handleAutorization = useCallback(
     async (password, email) => {
       try {
@@ -180,7 +160,10 @@ function App() {
           navigate("/", { replace: true });
         }
       } catch (err) {
-        console.error(err);
+        setMessage({
+          img: fail,
+          text: 'Что-то пошло не так! Попробуйте ещё раз.',
+        });
         setInfoTooltip(true);
       } 
     },
@@ -205,28 +188,6 @@ function App() {
     tokenCheck();
   }, [tokenCheck]);
 
-  // function tokenCheck() {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     auth
-  //       .getContent(token)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setEmail(res.data.email);
-  //           navigate('/', { replace: true });
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }
-
-  // function logout() {
-  //   // localStorage.removeItem('token');
-  //   setLoggedIn(false);
-  //   setEmail('');
-  //   navigate("/sign-in", { replace: true });
-  // }
   const logout = useCallback(async () => {
     try {
       const data = await auth.signOut();
@@ -234,6 +195,8 @@ function App() {
         setLoggedIn(false);
         setEmail('');
         navigate("/sign-in", { replace: true });
+        setCards([])
+        setCurrentUser({})
       }
     } catch (err) {
       console.error(err);
