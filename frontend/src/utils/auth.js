@@ -1,3 +1,4 @@
+// export const BASE_URL = 'lоcаlhost:3000';
 export const BASE_URL = 'https://api.mesto.full-front.nomoredomains.monster';
 
 const checkResponse = (res) =>
@@ -36,12 +37,3 @@ export const getContent = (token) => {
   }).then(checkResponse);
 };
 
-export const signOut = () => {
-  return fetch(`${BASE_URL}/logout`, {
-    credentials: 'include',
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-}

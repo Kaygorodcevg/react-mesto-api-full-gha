@@ -2,7 +2,6 @@ const router = require('express').Router();
 const {
   getUsers,
   getUsersById,
-  logout,
   getUserInfo,
   updateUser,
   updateAvatar,
@@ -12,8 +11,6 @@ const { updateUserInfo, userId, updateUserAvatar } = require('../middlewares/val
 router.get('/', getUsers);
 
 router.get('/me', getUserInfo);
-
-router.delete('/me', logout);
 
 router.get('/:userId', userId, getUsersById);
 

@@ -6,7 +6,7 @@ import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import api from '../utils/api';
+import Api from '../utils/api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -35,8 +35,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loggedIn) { 
-      Promise.all([api.getInitialCards(), api.getUserInfo()])
+    loggedIn && Promise.all([Api.getInitialCards(), Api.getUserInfo()])
       .then(([cardsData, userData]) => {
         setCards(cardsData);
         setCurrentUser(userData);
@@ -44,12 +43,11 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-    }
   }, [loggedIn]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((item) => item._id === currentUser._id);
-    api.changeLikeCardStatus(card._id, !isLiked)
+    Api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
           state.map((item) => (item._id === card._id ? newCard : item))
@@ -59,7 +57,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
+    Api.deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((item) => item._id !== card._id));
       })
@@ -100,7 +98,7 @@ function App() {
   }
 
   function handleUpdateUser(userData) {
-    api.changeUserInfo(userData)
+    Api.changeUserInfo(userData)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -109,7 +107,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatarData) {
-    api.changeAvatar(avatarData)
+    Api.changeAvatar(avatarData)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -118,7 +116,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(cardData) {
-    api.getNewCard(cardData)
+    Api.getNewCard(cardData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -164,12 +162,16 @@ function App() {
       })
       } catch (err) {
         setInfoTooltip(true);
-        console.error(err);
+        console.log(err);
       }
     },
     [navigate]
   );
- 
+
+  useEffect(() => {
+    tokenCheck();
+  }, [tokenCheck]);
+
   function tokenCheck() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -178,7 +180,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setEmail(res.email);
+            setEmail(res.data.email);
             navigate('/', { replace: true });
           }
         })
@@ -186,16 +188,10 @@ function App() {
     }
   }
 
-useEffect(() => {
-  tokenCheck();
-}, [tokenCheck]);
-
   function logout() {
     localStorage.removeItem('token');
-    auth.signOut()
-    setLoggedIn(false)
+    setLoggedIn(false);
     setEmail('');
-    navigate('/sign-in', { replace: true });
   }
 
   return (

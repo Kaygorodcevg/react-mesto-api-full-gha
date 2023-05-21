@@ -89,11 +89,3 @@ module.exports.login = (req, res, next) => {
     })
     .catch(next);
 };
-
-module.exports.logout = (req, res) => {
-  res.cookie('jwt', 'none', {
-    maxAge: 3000,
-    httpOnly: true,
-    sameSite: true,
-  });
-};
