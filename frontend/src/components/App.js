@@ -170,19 +170,6 @@ function App() {
     [navigate]
   );
 
-  // const tokenCheck = useCallback(async () => {
-  //   try {
-  //     const userData = await auth.getContent();
-  //     if (!userData) {
-  //       throw new Error("Данные пользователя отсутствует");
-  //     }
-  //     setEmail(userData.email);
-  //     setLoggedIn(true);
-  //     navigate("/", { replace: true });
-  //   } catch (err) {
-  //     console.error(err);
-  //   } 
-  // }, [navigate]);
   function tokenCheck() {
     auth.getContent()
       .then((res) => {
