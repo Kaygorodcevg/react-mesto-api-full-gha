@@ -37,3 +37,15 @@ export const getContent = (token) => {
   }).then(checkResponse);
 };
 
+export const signOut = () => {
+  return fetch(`${BASE_URL}//users/me`, {
+    credentials: 'include',
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(checkResponse)
+};
+
+
+

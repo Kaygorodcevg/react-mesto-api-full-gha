@@ -219,12 +219,24 @@ function App() {
   //   }
   // }
 
-  function logout() {
-    // localStorage.removeItem('token');
-    setLoggedIn(false);
-    setEmail('');
-    navigate("/sign-in", { replace: true });
-  }
+  // function logout() {
+  //   // localStorage.removeItem('token');
+  //   setLoggedIn(false);
+  //   setEmail('');
+  //   navigate("/sign-in", { replace: true });
+  // }
+  const logout = useCallback(async () => {
+    try {
+      const data = await auth.signOut();
+      if (data) {
+        setLoggedIn(false);
+        setEmail("");
+        navigate("/sign-in", { replace: true });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [navigate]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
