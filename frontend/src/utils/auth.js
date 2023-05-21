@@ -1,5 +1,5 @@
-// export const BASE_URL = 'lоcаlhost:3000';
-export const BASE_URL = 'https://api.mesto.full-front.nomoredomains.monster';
+export const BASE_URL = 'lоcаlhost:3000';
+// export const BASE_URL = 'https://api.mesto.full-front.nomoredomains.monster';
 
 const checkResponse = (res) =>
   res.ok ? res.json() : Promise.reject(`Ошибка: ${res.statusText}`);

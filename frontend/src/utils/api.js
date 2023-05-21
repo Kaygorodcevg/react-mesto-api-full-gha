@@ -89,8 +89,8 @@ class Api {
 }
 
 export default new Api({
-  url: 'https://api.mesto.full-front.nomoredomains.monster',
-  // url: 'lоcаlhost:3000',
+  // url: 'https://api.mesto.full-front.nomoredomains.monster',
+  url: 'lоcаlhost:3000',
   credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
