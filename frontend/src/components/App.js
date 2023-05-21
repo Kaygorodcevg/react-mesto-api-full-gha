@@ -35,7 +35,8 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loggedIn && Promise.all([Api.getInitialCards(), Api.getUserInfo()])
+    if(loggedIn) {
+      Promise.all([Api.getInitialCards(), Api.getUserInfo()])
       .then(([cardsData, userData]) => {
         setCards(cardsData);
         setCurrentUser(userData);
@@ -43,6 +44,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+    }
   }, [loggedIn]);
 
   function handleCardLike(card) {
@@ -254,7 +256,7 @@ function App() {
           ></Route>
           <Route
             path="/sign-in"
-            element={<Login onAuth={handleAutorization} />}
+            element={<Login onAuth={handleAutorization} infoTooltip={infoTooltip}/>}
           ></Route>
           <Route
             path="/"
