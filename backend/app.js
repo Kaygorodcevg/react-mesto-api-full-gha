@@ -9,14 +9,14 @@ const err = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT = 3005 } = process.env;
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+mongoose.connect('mongodb://0.0.0.0:27017/mestodb');
 
 app.use(cors(
   {
     origin: ['https://mesto.full-front.nomoredomains.monster',
-      'https://api.mesto.full-front.nomoredomains.monster', 'lоcаlhost:3000', 'lоcаlhost:3001'],
+      'https://api.mesto.full-front.nomoredomains.monster', 'localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     // exposedHeaders: ['set-cookie'],

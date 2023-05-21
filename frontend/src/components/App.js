@@ -188,6 +188,17 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    loggedIn && Promise.all([Api.getInitialCards(), Api.getUserInfo()])
+      .then(([cardsData, userData]) => {
+        setCards(cardsData);
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [loggedIn]);
+
   function logout() {
     localStorage.removeItem('token');
     setLoggedIn(false);
