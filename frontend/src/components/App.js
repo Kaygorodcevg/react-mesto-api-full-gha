@@ -230,7 +230,7 @@ function App() {
       const data = await auth.signOut();
       if (data) {
         setLoggedIn(false);
-        setEmail("");
+        setEmail('');
         navigate("/sign-in", { replace: true });
       }
     } catch (err) {

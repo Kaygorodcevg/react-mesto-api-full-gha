@@ -38,7 +38,7 @@ export const getContent = (token) => {
 };
 
 export const signOut = () => {
-  return fetch(`${BASE_URL}//users/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     credentials: 'include',
     method: 'DELETE',
     headers: {

@@ -19,7 +19,6 @@ app.use(cors(
       'https://api.mesto.full-front.nomoredomains.monster', 'http://mesto.full-front.nomoredomains.monster', 'http://api.mesto.full-front.nomoredomains.monster', 'localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
-    // exposedHeaders: ['set-cookie'],
     credentials: true,
     preflightContinue: false,
     optionSuccessStatus: 200,
