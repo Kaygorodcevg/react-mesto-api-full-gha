@@ -183,20 +183,22 @@ function App() {
   //     console.error(err);
   //   } 
   // }, [navigate]);
-  const tokenCheck = useCallback(async () => {
-    try {
-      const userData = await auth.getContent();
-      setEmail(userData.email);
-      setLoggedIn(true);
+  function tokenCheck() {
+    auth.getContent()
+      .then((res) => {
+        if(res) {
+          setLoggedIn(true)
+          setEmail(res.email)
       navigate("/", { replace: true });
-    } catch (err) {
-      console.error(err);
-    } 
-  }, [navigate]);
+        }
+      })
+      .catch((err) => console.log(err))
+  }
+
 
   useEffect(() => {
     tokenCheck();
-  }, [tokenCheck]);
+  }, []);
 
   const logout = useCallback(async () => {
     try {

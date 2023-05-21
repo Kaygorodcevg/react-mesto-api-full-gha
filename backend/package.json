@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kaygorodcevg/express-mesto-gha.git"
+    "url": "git+https://github.com/Kaygorodcevg/react-mesto-api-full-gha.git"
   },
   "keywords": [],
   "author": "Kaygorodcev Gleb",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Kaygorodcevg/express-mesto-gha/issues"
+    "url": "https://github.com/Kaygorodcevg/react-mesto-api-full-gha/issues"
   },
-  "homepage": "https://github.com/Kaygorodcevg/express-mesto-gha#readme",
+  "homepage": "https://github.com/Kaygorodcevg/react-mesto-api-full-gha#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
