@@ -1,19 +1,6 @@
 .profile__edit-wrapper {
   display: flex;
   flex-direction: row;
-  padding-right: 244px;
-}
-
-@media screen and (max-width: 1278px) {
-  .profile__edit-wrapper {
-    padding-right: 128px;
-  }
-}
-
-@media screen and (max-width: 970px) {
-  .profile__edit-wrapper {
-    padding-right: 58px;
-  }
 }
 
 @media screen and (max-width: 830px) {
@@ -21,3 +8,4 @@
     padding: 0;
   }
 }
+
