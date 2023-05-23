@@ -1,7 +1,7 @@
 [![Tests](https://github.com/yandex-praktikum/react-mesto-api-full-gha/actions/workflows/tests.yml/badge.svg)](https://github.com/yandex-praktikum/react-mesto-api-full-gha/actions/workflows/tests.yml)
 
 # "Место": фронтенд и бэкенд на удаленном сервере
-[**Mesto**](https://shev.mesto.students.nomoredomains.icu) (подключиться и открыть проект в браузере)
+[**Mesto**](https://mesto.full-front.nomoredomains.monster) (открыть проект в браузере)
 
 ## Описание проекта
 Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями.Бэкенд расположен в директории `backend/`, а фронтенд - в `frontend/`.  
